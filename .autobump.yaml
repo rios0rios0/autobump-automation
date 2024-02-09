@@ -1,0 +1,10 @@
+gpg_key_path: ".secure_files/autobump.asc"
+github_access_token: ".secure_files/github_access_token.key"
+
+projects:
+  - path: "https://github.com/rios0rios0/autobump.git"
+  - path: "https://github.com/rios0rios0/terra.git"
+  - path: "https://github.com/rios0rios0/pipelines.git"
+  - path: "https://github.com/rios0rios0/versainit.git"
+  - path: "https://github.com/rios0rios0/rios0rios0.git"
+  - path: "https://github.com/rios0rios0/boss.git"
