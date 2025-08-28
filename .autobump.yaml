@@ -1,5 +1,5 @@
 gpg_key_path: ".secure_files/autobump.asc"
-github_access_token: ".secure_files/github_access_token.key"
+gitlab_access_token: ".secure_files/github_access_token.key"
 
 projects:
   - path: "https://github.com/rios0rios0/autobump.git"
