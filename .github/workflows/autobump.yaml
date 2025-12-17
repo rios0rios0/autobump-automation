@@ -1,21 +1,28 @@
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 12 * * *' # https://crontab.guru/#0_12_*_*_* "At 12:00."
   workflow_dispatch: # allows manual triggering of the workflow
 
 jobs:
-  bump:
+  batch:
+    name: 'autobump > batch'
     runs-on: 'ubuntu-latest'
     steps:
-      - uses: 'actions/checkout@v3'
-      - run: |
-          sudo apt-get update && sudo apt-get install -y unzip curl jq
-      - run: |
+      - name: 'Checkout code'
+        uses: 'actions/checkout@v6'
+
+      - name: 'Install Dependencies'
+        run: sudo apt-get update && sudo apt-get install --yes --no-install-recommends unzip curl jq
+
+      - name: 'Download Autobump'
+        run: |
           export AUTOBUMP_VERSION=$(curl -sSLH 'Accept: application/vnd.github.v3+json' \
               'https://api.github.com/repos/rios0rios0/autobump/releases/latest' | jq -r '.tag_name')
           curl -LO "https://github.com/rios0rios0/autobump/releases/download/$AUTOBUMP_VERSION/autobump-$AUTOBUMP_VERSION.zip"
           unzip "autobump-$AUTOBUMP_VERSION.zip"
-      - run: |
+
+      - name: 'Configure Git'
+        run: |
           cat <<-EOF >~/.gitconfig
           [user]
               name = ${{ secrets.GIT_USER }}
@@ -26,4 +33,9 @@ jobs:
           [commit]
               gpgsign = true
           EOF
-      - run: ./autobump batch
+
+      - name: 'Run Autobump'
+        run: |
+          set -e
+
+          ./autobump batch

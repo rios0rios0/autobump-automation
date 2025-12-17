@@ -1,10 +1,16 @@
-gpg_key_path: ".secure_files/autobump.asc"
-github_access_token: ".secure_files/github_access_token.key"
+gpg_key_path: '.secure_files/autobump.asc'
+github_access_token: '.secure_files/github_access_token.key'
 
 projects:
-  - path: "https://github.com/rios0rios0/autobump.git"
-  - path: "https://github.com/rios0rios0/terra.git"
-  - path: "https://github.com/rios0rios0/pipelines.git"
-  - path: "https://github.com/rios0rios0/versainit.git"
-  - path: "https://github.com/rios0rios0/rios0rios0.git"
-  - path: "https://github.com/rios0rios0/boss.git"
+  - path: 'https://github.com/rios0rios0/autobump.git'
+  - path: 'https://github.com/rios0rios0/boss.git'
+  - path: 'https://github.com/rios0rios0/dotfiles.git'
+  - path: 'https://github.com/rios0rios0/home-assistant-addons.git'
+  - path: 'https://github.com/rios0rios0/iac-modules.git'
+  - path: 'https://github.com/rios0rios0/mcp-home-assistant-extended.git'
+  - path: 'https://github.com/rios0rios0/pipelines.git'
+  - path: 'https://github.com/rios0rios0/rios0rios0.git'
+  - path: 'https://github.com/rios0rios0/terra.git'
+  - path: 'https://github.com/rios0rios0/terraform-provider-http.git'
+  - path: 'https://github.com/rios0rios0/testkit.git'
+  - path: 'https://github.com/rios0rios0/versainit.git'

@@ -46,7 +46,7 @@ This repository provides automated dependency and version management across mult
 - **ALWAYS** test workflow components after making configuration changes
 - Run the complete workflow simulation:
   1. Download dependencies (30-60 seconds)
-  2. Download autobump binary (<1 second)  
+  2. Download autobump binary (<1 second)
   3. Test binary execution (<1 second)
   4. Validate configuration syntax (<1 second)
 - **NEVER CANCEL** workflow operations - all steps complete in under 2 minutes
@@ -127,7 +127,7 @@ The GitHub Actions workflow expects these repository secrets:
 ### Making Changes
 - **CRITICAL**: Current .autobump.yaml has incorrect config format and needs to be fixed
 - To fix the configuration error:
-  1. Change `github_access_token:` to `gitlab_access_token:` in .autobump.yaml  
+  1. Change `github_access_token:` to `gitlab_access_token:` in .autobump.yaml
   2. This is the only change needed - the file path value stays the same
 - **ALWAYS** validate configuration changes with `yamllint .autobump.yaml`
 - **ALWAYS** test autobump can parse the config with `./autobump batch -c .autobump.yaml`
@@ -143,7 +143,7 @@ The GitHub Actions workflow expects these repository secrets:
 
 ### Debugging
 - Check workflow runs in GitHub Actions tab
-- Review autobump logs for authentication and processing errors  
+- Review autobump logs for authentication and processing errors
 - Validate that all referenced projects exist and are accessible
 - Ensure repository secrets are properly configured
 - Test configuration changes in a fork before applying to main repository
