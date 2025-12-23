@@ -25,17 +25,27 @@ jobs:
         run: |
           cat <<-EOF >~/.gitconfig
           [user]
-              name = ${{ secrets.GIT_USER }}
-              email = ${{ secrets.GIT_USER_EMAIL }}
-              signingkey = ${{ secrets.GIT_USER_SIGNINGKEY }}
+              name = ${{ vars.GIT_USER }}
+              email = ${{ vars.GIT_USER_EMAIL }}
+              signingkey = ${{ vars.GIT_USER_SIGNINGKEY }}
           [push]
               autoSetupRemote = true
           [commit]
               gpgsign = true
           EOF
 
+      - name: 'Prepare Secrets'
+        run: |
+          mkdir -p '.secure_files'
+          echo "${GPG_PRIVATE_KEY}" > '.secure_files/autobump.asc'
+          echo "${PERSONAL_ACCESS_TOKEN}" > '.secure_files/github_access_token.key'
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
       - name: 'Run Autobump'
         run: |
           set -e
 
           ./autobump batch
+          rm -rf '.secure_files'
