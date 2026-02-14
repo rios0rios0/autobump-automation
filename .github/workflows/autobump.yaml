@@ -40,5 +40,5 @@ jobs:
         run: |
           set -e
 
-          ./autobump batch
+          ./autobump discover
           rm -rf '.secure_files'
