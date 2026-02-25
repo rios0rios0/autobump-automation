@@ -12,7 +12,7 @@ Take a look at the [Autobump repository](https://github.com/rios0rios0/autobump)
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## License
 
