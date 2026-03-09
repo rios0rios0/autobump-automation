@@ -42,9 +42,9 @@ jobs:
             echo 'ERROR: GPG key file is empty'
             exit 1
           fi
-          if ! head -1 '.secure_files/autobump.asc' | grep -q 'BEGIN PGP'; then
+          if ! grep -q 'BEGIN PGP' '.secure_files/autobump.asc' || ! grep -q 'END PGP' '.secure_files/autobump.asc'; then
             echo 'ERROR: GPG key file does not contain valid armored PGP data'
-            echo "First bytes: $(xxd -l 40 '.secure_files/autobump.asc')"
+            echo "GPG key file size (bytes): $(wc -c < '.secure_files/autobump.asc' || echo 'unknown')"
             echo 'Ensure GPG_PRIVATE_KEY secret contains the output of: gpg --export-secret-key --armor <KEY_ID>'
             exit 1
           fi
