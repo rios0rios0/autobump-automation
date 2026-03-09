@@ -30,11 +30,24 @@ jobs:
       - name: 'Prepare Secrets'
         run: |
           mkdir -p '.secure_files'
-          echo "${GPG_PRIVATE_KEY}" > '.secure_files/autobump.asc'
-          echo "${PERSONAL_ACCESS_TOKEN}" > '.secure_files/github_access_token.key'
+          printf '%s' "${GPG_PRIVATE_KEY}" > '.secure_files/autobump.asc'
+          printf '%s' "${PERSONAL_ACCESS_TOKEN}" > '.secure_files/github_access_token.key'
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      - name: 'Validate GPG Key'
+        run: |
+          if [ ! -s '.secure_files/autobump.asc' ]; then
+            echo 'ERROR: GPG key file is empty'
+            exit 1
+          fi
+          if ! head -1 '.secure_files/autobump.asc' | grep -q 'BEGIN PGP'; then
+            echo 'ERROR: GPG key file does not contain valid armored PGP data'
+            echo "First bytes: $(xxd -l 40 '.secure_files/autobump.asc')"
+            echo 'Ensure GPG_PRIVATE_KEY secret contains the output of: gpg --export-secret-key --armor <KEY_ID>'
+            exit 1
+          fi
 
       - name: 'Run Autobump'
         run: |
