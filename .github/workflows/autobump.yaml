@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: '0 13 * * *' # https://crontab.guru/#0_13_*_*_* "At 13:00 (10am BRT)."
+    - cron: '0 18 * * *' # https://crontab.guru/#0_18_*_*_* "At 18:00 (3pm BRT)."
   workflow_dispatch: # allows manual triggering of the workflow
 
 jobs:
