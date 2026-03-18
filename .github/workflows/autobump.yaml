@@ -4,8 +4,8 @@ on:
   workflow_dispatch: # allows manual triggering of the workflow
 
 jobs:
-  batch:
-    name: 'autobump > batch'
+  run:
+    name: 'autobump > run'
     runs-on: 'ubuntu-latest'
     steps:
       - name: 'Checkout code'
@@ -50,8 +50,8 @@ jobs:
           fi
 
       - name: 'Run Autobump'
-        run: |
-          set -e
+        run: ./autobump run
 
-          ./autobump discover
-          rm -rf '.secure_files'
+      - name: 'Cleanup Secrets'
+        if: always()
+        run: rm -rf '.secure_files'
