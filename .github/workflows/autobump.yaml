@@ -18,7 +18,7 @@ jobs:
         run: |
           cat <<-EOF >~/.gitconfig
           [user]
-              name = ${{ vars.GIT_USER }}
+              name = ${{ vars.GIT_USER_NAME }}
               email = ${{ vars.GIT_USER_EMAIL }}
               signingkey = ${{ vars.GIT_USER_SIGNINGKEY }}
           [push]
