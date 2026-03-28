@@ -20,6 +20,8 @@ Exceptions are acceptable depending on the circumstances (critical bug fixes tha
 
 ### Changed
 
+- changed configuration to exclude forked repositories from version bumping
+
 ### Removed
 
 

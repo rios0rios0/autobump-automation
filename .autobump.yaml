@@ -1,4 +1,5 @@
 gpg_key_path: '.secure_files/autobump.asc'
+exclude_forks: true
 
 providers:
   - type: 'github'
