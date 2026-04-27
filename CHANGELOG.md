@@ -16,6 +16,14 @@ Exceptions are acceptable depending on the circumstances (critical bug fixes tha
 
 ## [Unreleased]
 
+### Added
+
+- created `CLAUDE.md` with project guidance for Claude Code sessions
+
+### Changed
+
+- refreshed `.github/copilot-instructions.md` to fix cron schedule (13:00 → 18:00 UTC), correct `GIT_USER` variable name to `GIT_USER_NAME`, update workflow command from `discover` to `run`, add `exclude_forks` to config example, and update repository structure tree
+
 ## [0.1.1] - 2026-03-30
 
 ### Changed
