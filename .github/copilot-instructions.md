@@ -44,7 +44,7 @@ This repository provides automated dependency and version management across mult
   3. Test binary execution (<1 second)
   4. Validate configuration syntax (<1 second)
 - **NEVER CANCEL** workflow operations - all steps complete in under 2 minutes
-- The actual GitHub Actions workflow runs daily at 13:00 UTC and can be manually triggered
+- The actual GitHub Actions workflow runs daily at 18:00 UTC and can be manually triggered
 
 ### Configuration Validation Steps
 - Validate YAML syntax: `yamllint .autobump.yaml`
@@ -61,9 +61,15 @@ This repository provides automated dependency and version management across mult
 ├── .github/
 │   ├── copilot-instructions.md  # This file
 │   ├── workflows/
-│   │   └── autobump.yaml    # Daily automation workflow
+│   │   ├── autobump.yaml        # Daily automation workflow
+│   │   ├── claude.yaml           # Claude Code assistant workflow
+│   │   └── claude-code-review.yaml # Claude Code PR review workflow
 │   ├── pull_request_template/
+│   │   ├── bump.md
+│   │   └── default.md
 │   └── pull_request_template.md
+├── CHANGELOG.md             # Release history
+├── CLAUDE.md                # Claude Code guidance
 ├── CONTRIBUTING.md          # Contribution guidelines
 ├── LICENSE                  # MIT License
 └── README.md                # Basic project description
@@ -75,6 +81,7 @@ This repository provides automated dependency and version management across mult
 Contains authentication tokens and provider configuration:
 ```yaml
 gpg_key_path: '.secure_files/autobump.asc'
+exclude_forks: true
 
 providers:
   - type: 'github'
@@ -85,15 +92,17 @@ providers:
 
 #### .github/workflows/autobump.yaml
 GitHub Actions workflow that:
-- Runs daily at 13:00 UTC (`cron: '0 13 * * *'`)
+- Runs daily at 18:00 UTC (`cron: '0 18 * * *'`)
 - Can be manually triggered via workflow_dispatch
 - Downloads latest Autobump binary via install script
 - Configures git with repository variables and secrets
-- Runs `./autobump discover`
+- Validates GPG key before running
+- Runs `./autobump run`
+- Cleans up secrets after completion
 
 ### Workflow Variables and Secrets Required
 The GitHub Actions workflow expects these repository **variables** (`vars.*`):
-- `GIT_USER` - Git commit author name
+- `GIT_USER_NAME` - Git commit author name
 - `GIT_USER_EMAIL` - Git commit author email
 - `GIT_USER_SIGNINGKEY` - GPG signing key ID
 
