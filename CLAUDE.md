@@ -12,6 +12,7 @@ Configuration-only repository that runs [Autobump](https://github.com/rios0rios0
 - `.github/workflows/autobump.yaml` — daily workflow (cron `0 18 * * *`), runs `./autobump run`
 - `.github/workflows/claude.yaml` — Claude Code assistant workflow
 - `.github/workflows/claude-code-review.yaml` — Claude Code PR review workflow
+- `.github/workflows/release.yaml` — creates a Git tag on merge to `main` (delegates to `rios0rios0/pipelines`)
 
 ## Validation
 
