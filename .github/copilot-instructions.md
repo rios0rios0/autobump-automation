@@ -63,7 +63,8 @@ This repository provides automated dependency and version management across mult
 │   ├── workflows/
 │   │   ├── autobump.yaml        # Daily automation workflow
 │   │   ├── claude.yaml           # Claude Code assistant workflow
-│   │   └── claude-code-review.yaml # Claude Code PR review workflow
+│   │   ├── claude-code-review.yaml # Claude Code PR review workflow
+│   │   └── release.yaml            # Creates Git tag on merge to main
 │   ├── pull_request_template/
 │   │   ├── bump.md
 │   │   └── default.md
