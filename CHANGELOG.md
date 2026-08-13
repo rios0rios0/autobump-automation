@@ -16,6 +16,10 @@ Exceptions are acceptable depending on the circumstances (critical bug fixes tha
 
 ## [Unreleased]
 
+### Added
+
+- added the `medhub-tech` and `prefy` organizations to the GitHub provider in `.autobump.yaml`, so repositories in both are discovered and version-bumped alongside `rios0rios0`
+
 ## [0.2.1] - 2026-05-19
 
 ### Changed

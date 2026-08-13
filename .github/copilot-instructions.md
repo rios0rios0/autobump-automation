@@ -89,6 +89,8 @@ providers:
     token: '.secure_files/github_access_token.key'
     organizations:
       - 'rios0rios0'
+      - 'medhub-tech'
+      - 'prefy'
 ```
 
 #### .github/workflows/autobump.yaml
