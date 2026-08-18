@@ -5,8 +5,22 @@ on:
 
 jobs:
   run:
-    name: 'autobump > run'
+    name: 'autobump > run (${{ matrix.owner.name }})'
     runs-on: 'ubuntu-latest'
+    strategy:
+      # a fine-grained PAT is bound to a single resource owner, so one token cannot span
+      # every owner and each one carries its own failure modes (expiry, revoked grant,
+      # organization policy). `fail-fast: false` keeps a broken token for one owner from
+      # cancelling the others
+      fail-fast: false
+      matrix:
+        owner:
+          - name: 'rios0rios0'
+            secret: 'PERSONAL_ACCESS_TOKEN'
+          - name: 'medhub-tech'
+            secret: 'MEDHUB_TECH_ACCESS_TOKEN'
+          - name: 'prefy'
+            secret: 'PREFY_ACCESS_TOKEN'
     steps:
       - name: 'Checkout code'
         uses: 'actions/checkout@v6'
@@ -31,12 +45,12 @@ jobs:
         run: |
           mkdir -p '.secure_files'
           printf '%s' "${GPG_PRIVATE_KEY}" > '.secure_files/autobump.asc'
-          printf '%s' "${PERSONAL_ACCESS_TOKEN}" > '.secure_files/github_access_token.key'
+          printf '%s' "${OWNER_ACCESS_TOKEN}" > '.secure_files/github_access_token.key'
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          OWNER_ACCESS_TOKEN: ${{ secrets[matrix.owner.secret] }}
 
-      - name: 'Validate GPG Key'
+      - name: 'Validate Secrets'
         run: |
           if [ ! -s '.secure_files/autobump.asc' ]; then
             echo 'ERROR: GPG key file is empty'
@@ -48,9 +62,58 @@ jobs:
             echo 'Ensure GPG_PRIVATE_KEY secret contains the output of: gpg --export-secret-key --armor <KEY_ID>'
             exit 1
           fi
+          if [ ! -s '.secure_files/github_access_token.key' ]; then
+            echo "ERROR: the '${OWNER_SECRET}' secret is empty or not set"
+            echo "Every owner needs its own fine-grained PAT, and '${OWNER_NAME}' reads it from '${OWNER_SECRET}'"
+            echo 'The token lifetime must be 366 days or less, otherwise the organizations reject it'
+            exit 1
+          fi
+        env:
+          OWNER_NAME: ${{ matrix.owner.name }}
+          OWNER_SECRET: ${{ matrix.owner.secret }}
+
+      - name: 'Render Owner Configuration'
+        run: |
+          cp '.autobump.yaml' "${RUNNER_TEMP}/autobump.yaml"
+          cat >>"${RUNNER_TEMP}/autobump.yaml" <<EOF
+
+          providers:
+            - type: 'github'
+              token: '.secure_files/github_access_token.key'
+              organizations:
+                - '${OWNER_NAME}'
+          EOF
+          cat "${RUNNER_TEMP}/autobump.yaml"
+        env:
+          OWNER_NAME: ${{ matrix.owner.name }}
 
       - name: 'Run Autobump'
-        run: ./autobump run
+        run: |
+          set -o pipefail
+          ./autobump run --config "${RUNNER_TEMP}/autobump.yaml" 2>&1 | tee "${RUNNER_TEMP}/autobump.log"
+
+      - name: 'Assert Owner Was Reached'
+        run: |
+          # AutoBump logs a discovery failure and still exits 0, so a revoked or
+          # policy-blocked token would otherwise surface as a green run that silently
+          # processed nothing. Fail this owner's job instead of hiding the gap
+          if grep -qE 'Failed to (discover repos in|initialize provider)' "${RUNNER_TEMP}/autobump.log"; then
+            echo "::error::AutoBump could not reach '${OWNER_NAME}', so none of its repositories were processed"
+            grep -E 'Failed to (discover repos in|initialize provider)' "${RUNNER_TEMP}/autobump.log" >&2
+            exit 1
+          fi
+          if ! grep -q 'Discovery complete:' "${RUNNER_TEMP}/autobump.log"; then
+            echo "::error::AutoBump produced no discovery summary for '${OWNER_NAME}'"
+            exit 1
+          fi
+          errors="$(sed -e 's/\x1b\[[0-9;]*m//g' "${RUNNER_TEMP}/autobump.log" \
+            | sed -n 's/.*Discovery complete: [0-9]\{1,\} repos processed, \([0-9]\{1,\}\) errors.*/\1/p' \
+            | tail -1)"
+          if [ -n "${errors}" ] && [ "${errors}" -gt 0 ]; then
+            echo "::warning::AutoBump reported ${errors} per-repository error(s) for '${OWNER_NAME}'"
+          fi
+        env:
+          OWNER_NAME: ${{ matrix.owner.name }}
 
       - name: 'Cleanup Secrets'
         if: always()
