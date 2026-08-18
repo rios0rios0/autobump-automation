@@ -18,7 +18,7 @@ GitHub fine-grained token is bound to a single resource owner and cannot span se
 | Owner         | Secret                     |
 |---------------|----------------------------|
 | `rios0rios0`  | `PERSONAL_ACCESS_TOKEN`    |
-| `medhub-tech` | `MEDHUB_TECH_ACCESS_TOKEN` |
+| `medhub-tech` | `MEDHUB_ACCESS_TOKEN` |
 | `prefy`       | `PREFY_ACCESS_TOKEN`       |
 
 Every token's lifetime must be **366 days or less** — the organizations reject longer-lived
