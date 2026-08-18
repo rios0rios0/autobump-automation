@@ -1,10 +1,17 @@
+# Global settings shared by every owner.
+#
+# The `providers` block is deliberately absent. A GitHub fine-grained PAT is bound to a
+# single resource owner, so one token can never span `rios0rios0`, `medhub-tech` and
+# `prefy`. `.github/workflows/autobump.yaml` runs one matrix job per owner and appends a
+# single-owner `providers` block to a copy of this file at runtime, which keeps the owner
+# list and its per-owner secret declared in exactly one place: the workflow matrix.
+#
+# To run AutoBump locally against one owner, append the same block by hand:
+#
+#   providers:
+#     - type: 'github'
+#       token: '.secure_files/github_access_token.key'
+#       organizations:
+#         - 'rios0rios0'
 gpg_key_path: '.secure_files/autobump.asc'
 exclude_forks: true
-
-providers:
-  - type: 'github'
-    token: '.secure_files/github_access_token.key'
-    organizations:
-      - 'rios0rios0'
-      - 'medhub-tech'
-      - 'prefy'

@@ -16,7 +16,10 @@ This repository provides automated dependency and version management across mult
 ### Configuration Management
 - The main configuration file is `.autobump.yaml` containing:
   - GPG key path for commit signing
-  - A `providers` list with provider type, token path, and target organizations
+  - `exclude_forks`
+  - **No** `providers` list. A fine-grained PAT is bound to a single resource owner, so the
+    workflow runs one matrix job per owner and appends a single-owner `providers` block to a
+    copy of this file at runtime
 - Validate configuration syntax: `yamllint .autobump.yaml` -- takes <1 second
   - WARNING: yamllint will report missing document start "---" which is acceptable
 
@@ -79,28 +82,36 @@ This repository provides automated dependency and version management across mult
 ### Key Configuration Files
 
 #### .autobump.yaml
-Contains authentication tokens and provider configuration:
+Holds only the settings shared by every owner:
 ```yaml
 gpg_key_path: '.secure_files/autobump.asc'
 exclude_forks: true
+```
 
+The `Render Owner Configuration` step copies it to `${RUNNER_TEMP}/autobump.yaml` and appends
+the owner currently being processed, producing the file that `./autobump run --config` reads:
+```yaml
 providers:
   - type: 'github'
     token: '.secure_files/github_access_token.key'
     organizations:
-      - 'rios0rios0'
       - 'medhub-tech'
-      - 'prefy'
 ```
 
 #### .github/workflows/autobump.yaml
 GitHub Actions workflow that:
 - Runs daily at 18:00 UTC (`cron: '0 18 * * *'`)
 - Can be manually triggered via workflow_dispatch
+- Fans out into one job per owner via `strategy.matrix.owner`, each entry pairing an owner
+  name with the secret holding that owner's fine-grained PAT. `fail-fast: false` keeps one
+  owner's broken token from cancelling the others
 - Downloads latest Autobump binary via install script
 - Configures git with repository variables and secrets
-- Validates GPG key before running
-- Runs `./autobump run`
+- Validates the GPG key and the owner's token before running
+- Renders a single-owner config, then runs `./autobump run --config`
+- Asserts the owner was actually reached: AutoBump logs discovery failures and still exits 0,
+  so the `Assert Owner Was Reached` step fails the job when the log contains
+  `Failed to discover repos in` or no `Discovery complete:` summary
 - Cleans up secrets after completion
 
 ### Workflow Variables and Secrets Required
@@ -111,7 +122,15 @@ The GitHub Actions workflow expects these repository **variables** (`vars.*`):
 
 The GitHub Actions workflow expects these repository **secrets** (`secrets.*`):
 - `GPG_PRIVATE_KEY` - GPG private key for commit signing
-- `PERSONAL_ACCESS_TOKEN` - GitHub personal access token for API authentication
+- `PERSONAL_ACCESS_TOKEN` - fine-grained PAT for the `rios0rios0` account
+- `MEDHUB_TECH_ACCESS_TOKEN` - fine-grained PAT for the `medhub-tech` organization
+- `PREFY_ACCESS_TOKEN` - fine-grained PAT for the `prefy` organization
+
+A fine-grained PAT is bound to a single resource owner, so one token cannot cover all three.
+Every token's lifetime must be **366 days or less**: both organizations reject longer-lived
+fine-grained tokens with `403 ... forbids access via a fine-grained personal access tokens if
+the token's lifetime is greater than 366 days`. To add an owner, add a matrix entry and its
+secret — no other file changes.
 
 ### Expected Timing
 - **apt-get update && install**: 30-60 seconds
@@ -132,7 +151,7 @@ The GitHub Actions workflow expects these repository **secrets** (`secrets.*`):
 
 ### Integration Points
 - Main Autobump tool repository: https://github.com/rios0rios0/autobump
-- Target GitHub organization managed by providers config: `rios0rios0`
+- Owners managed by the workflow matrix: `rios0rios0`, `medhub-tech`, `prefy`
 - GitHub Actions for automation
 - GPG signing for commit verification
 
