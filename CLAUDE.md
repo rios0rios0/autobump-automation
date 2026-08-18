@@ -29,7 +29,7 @@ curl -fsSL https://raw.githubusercontent.com/rios0rios0/autobump/main/install.sh
 Variables (`vars.*`): `GIT_USER_NAME`, `GIT_USER_EMAIL`, `GIT_USER_SIGNINGKEY`
 
 Secrets (`secrets.*`): `GPG_PRIVATE_KEY`, plus one fine-grained PAT per owner —
-`PERSONAL_ACCESS_TOKEN` (`rios0rios0`), `MEDHUB_TECH_ACCESS_TOKEN` (`medhub-tech`), `PREFY_ACCESS_TOKEN` (`prefy`).
+`PERSONAL_ACCESS_TOKEN` (`rios0rios0`), `MEDHUB_ACCESS_TOKEN` (`medhub-tech`), `PREFY_ACCESS_TOKEN` (`prefy`).
 
 A fine-grained PAT is bound to a single resource owner, so one token cannot cover all three.
 Each token's lifetime must be **366 days or less** — both organizations reject longer-lived
