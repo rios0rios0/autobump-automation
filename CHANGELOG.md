@@ -16,15 +16,17 @@ Exceptions are acceptable depending on the circumstances (critical bug fixes tha
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-08-20
+
+### Changed
+
+- changed `.autobump.yaml` to hold only the settings shared by every owner; the `providers` block is now rendered per job from the matrix entry, keeping the owner list and its secret declared in exactly one place
+- changed the daily workflow to fan out into one job per owner via `strategy.matrix.owner`, each job authenticating with that owner's own fine-grained PAT (`PERSONAL_ACCESS_TOKEN`, `MEDHUB_ACCESS_TOKEN`, `PREFY_ACCESS_TOKEN`) and running with `fail-fast: false` so one broken token no longer cancels the other owners
+
 ### Fixed
 
 - fixed `medhub-tech` and `prefy` never being version-bumped: a single fine-grained PAT is bound to one resource owner, so the shared `PERSONAL_ACCESS_TOKEN` was rejected by both organizations with `403 ... forbids access via a fine-grained personal access tokens if the token's lifetime is greater than 366 days`, and AutoBump logged the discovery failure but still exited `0` — every run since the two owners were added reported success while silently processing only `rios0rios0`
 - fixed the workflow reporting success when an owner could not be reached, by adding an `Assert Owner Was Reached` step that fails the job when the run log contains a discovery failure or no `Discovery complete:` summary
-
-### Changed
-
-- changed the daily workflow to fan out into one job per owner via `strategy.matrix.owner`, each job authenticating with that owner's own fine-grained PAT (`PERSONAL_ACCESS_TOKEN`, `MEDHUB_ACCESS_TOKEN`, `PREFY_ACCESS_TOKEN`) and running with `fail-fast: false` so one broken token no longer cancels the other owners
-- changed `.autobump.yaml` to hold only the settings shared by every owner; the `providers` block is now rendered per job from the matrix entry, keeping the owner list and its secret declared in exactly one place
 
 ## [0.3.0] - 2026-08-13
 
