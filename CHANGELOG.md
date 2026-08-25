@@ -16,6 +16,10 @@ Exceptions are acceptable depending on the circumstances (critical bug fixes tha
 
 ## [Unreleased]
 
+### Fixed
+
+- fixed the `medhub-tech` matrix leg in `.github/workflows/autobump.yaml` targeting an organization that no longer exists: it was renamed to `medhub-life`, so every API call against the old name returned `404` and that owner's repositories were never version-bumped — `fail-fast: false` kept the other owners green, so the run reported success while one third of the fleet was skipped; the `MEDHUB_ACCESS_TOKEN` secret name is unchanged, only the owner it addresses
+
 ## [0.3.1] - 2026-08-24
 
 ### Changed
