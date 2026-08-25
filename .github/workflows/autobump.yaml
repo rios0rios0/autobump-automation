@@ -17,7 +17,7 @@ jobs:
         owner:
           - name: 'rios0rios0'
             secret: 'PERSONAL_ACCESS_TOKEN'
-          - name: 'medhub-tech'
+          - name: 'medhub-life'
             secret: 'MEDHUB_ACCESS_TOKEN'
           - name: 'prefy'
             secret: 'PREFY_ACCESS_TOKEN'

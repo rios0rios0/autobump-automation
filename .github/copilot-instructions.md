@@ -95,7 +95,7 @@ providers:
   - type: 'github'
     token: '.secure_files/github_access_token.key'
     organizations:
-      - 'medhub-tech'
+      - 'medhub-life'
 ```
 
 #### .github/workflows/autobump.yaml
@@ -123,7 +123,7 @@ The GitHub Actions workflow expects these repository **variables** (`vars.*`):
 The GitHub Actions workflow expects these repository **secrets** (`secrets.*`):
 - `GPG_PRIVATE_KEY` - GPG private key for commit signing
 - `PERSONAL_ACCESS_TOKEN` - fine-grained PAT for the `rios0rios0` account
-- `MEDHUB_ACCESS_TOKEN` - fine-grained PAT for the `medhub-tech` organization
+- `MEDHUB_ACCESS_TOKEN` - fine-grained PAT for the `medhub-life` organization
 - `PREFY_ACCESS_TOKEN` - fine-grained PAT for the `prefy` organization
 
 A fine-grained PAT is bound to a single resource owner, so one token cannot cover all three.
@@ -151,7 +151,7 @@ secret — no other file changes.
 
 ### Integration Points
 - Main Autobump tool repository: https://github.com/rios0rios0/autobump
-- Owners managed by the workflow matrix: `rios0rios0`, `medhub-tech`, `prefy`
+- Owners managed by the workflow matrix: `rios0rios0`, `medhub-life`, `prefy`
 - GitHub Actions for automation
 - GPG signing for commit verification
 
