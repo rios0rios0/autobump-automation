@@ -1,3 +1,0 @@
-kind: 'Changed'
-body: 'refreshed `CLAUDE.md` and `.github/copilot-instructions.md` to reference the renamed `claude-mention.yaml` and `claude-review.yaml` workflows and the broadened `Assert Owner Was Reached` grep pattern'
-time: '2026-09-01T16:54:15.378202853Z'
