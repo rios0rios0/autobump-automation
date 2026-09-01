@@ -22,6 +22,12 @@ Exceptions are acceptable depending on the circumstances (critical bug fixes tha
 
 ## [Unreleased]
 
+## [0.4.2] - 2026-09-01
+
+### Changed
+
+- refreshed `CLAUDE.md` and `.github/copilot-instructions.md` to reference the renamed `claude-mention.yaml` and `claude-review.yaml` workflows and the broadened `Assert Owner Was Reached` grep pattern
+
 ## [0.4.1] - 2026-08-28
 
 ### Changed
