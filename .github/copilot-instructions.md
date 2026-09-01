@@ -65,8 +65,8 @@ This repository provides automated dependency and version management across mult
 │   ├── copilot-instructions.md  # This file
 │   ├── workflows/
 │   │   ├── autobump.yaml        # Daily automation workflow
-│   │   ├── claude.yaml           # Claude Code assistant workflow
-│   │   ├── claude-code-review.yaml # Claude Code PR review workflow
+│   │   ├── claude-mention.yaml   # Claude Code assistant workflow (@claude mentions)
+│   │   ├── claude-review.yaml     # Claude Code PR review workflow
 │   │   └── release.yaml            # Creates Git tag on merge to main
 │   ├── pull_request_template/
 │   │   ├── bump.md
@@ -110,8 +110,9 @@ GitHub Actions workflow that:
 - Validates the GPG key and the owner's token before running
 - Renders a single-owner config, then runs `./autobump run --config`
 - Asserts the owner was actually reached: AutoBump logs discovery failures and still exits 0,
-  so the `Assert Owner Was Reached` step fails the job when the log contains
-  `Failed to discover repos in` or no `Discovery complete:` summary
+  so the `Assert Owner Was Reached` step fails the job when the log matches
+  `Failed to (discover repos in|initialize provider)` or carries no `Discovery complete:`
+  summary; a `Discovery complete:` line reporting a non-zero error count is surfaced as a warning
 - Cleans up secrets after completion
 
 ### Workflow Variables and Secrets Required

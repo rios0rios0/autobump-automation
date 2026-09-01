@@ -10,8 +10,8 @@ Configuration-only repository that runs [Autobump](https://github.com/rios0rios0
 
 - `.autobump.yaml` — global autobump configuration (GPG key path, `exclude_forks`). It carries **no** `providers` block: the workflow appends a single-owner one per matrix job
 - `.github/workflows/autobump.yaml` — daily workflow (cron `0 18 * * *`), one matrix job per owner, runs `./autobump run --config` against the rendered single-owner config
-- `.github/workflows/claude.yaml` — Claude Code assistant workflow
-- `.github/workflows/claude-code-review.yaml` — Claude Code PR review workflow
+- `.github/workflows/claude-mention.yaml` — Claude Code assistant workflow (responds to `@claude` mentions), delegates to `rios0rios0/pipelines`
+- `.github/workflows/claude-review.yaml` — Claude Code PR review workflow, delegates to `rios0rios0/pipelines`
 - `.github/workflows/release.yaml` — creates a Git tag on merge to `main` (delegates to `rios0rios0/pipelines`)
 
 ## Validation
