@@ -1,6 +1,6 @@
 # Autobump Automation Repository
 
-This repository provides automated dependency and version management across multiple projects using the [Autobump tool](https://github.com/rios0rios0/autobump). It is a configuration and automation repository containing GitHub Actions workflows that run the Autobump tool daily to manage version bumps and changelog updates across specified projects.
+This repository provides automated dependency and version management across multiple projects using the [Autobump tool](https://github.com/rios0rios0/autobump). It is a configuration and automation repository containing GitHub Actions workflows that run the Autobump tool weekly to manage version bumps and changelog updates across specified projects.
 
 **ALWAYS** reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.
 
@@ -47,7 +47,7 @@ This repository provides automated dependency and version management across mult
   3. Test binary execution (<1 second)
   4. Validate configuration syntax (<1 second)
 - **NEVER CANCEL** workflow operations - all steps complete in under 2 minutes
-- The actual GitHub Actions workflow runs daily at 18:00 UTC and can be manually triggered
+- The actual GitHub Actions workflow runs weekly on Wednesday at 14:00 UTC (9am EST) and can be manually triggered
 
 ### Configuration Validation Steps
 - Validate YAML syntax: `yamllint .autobump.yaml`
@@ -64,7 +64,7 @@ This repository provides automated dependency and version management across mult
 ├── .github/
 │   ├── copilot-instructions.md  # This file
 │   ├── workflows/
-│   │   ├── autobump.yaml        # Daily automation workflow
+│   │   ├── autobump.yaml        # Weekly automation workflow
 │   │   ├── claude-mention.yaml   # Claude Code assistant workflow (@claude mentions)
 │   │   ├── claude-review.yaml     # Claude Code PR review workflow
 │   │   └── release.yaml            # Creates Git tag on merge to main
@@ -100,7 +100,7 @@ providers:
 
 #### .github/workflows/autobump.yaml
 GitHub Actions workflow that:
-- Runs daily at 18:00 UTC (`cron: '0 18 * * *'`)
+- Runs weekly on Wednesday at 14:00 UTC / 9am EST (`cron: '0 14 * * 3'`)
 - Can be manually triggered via workflow_dispatch
 - Fans out into one job per owner via `strategy.matrix.owner`, each entry pairing an owner
   name with the secret holding that owner's fine-grained PAT. `fail-fast: false` keeps one

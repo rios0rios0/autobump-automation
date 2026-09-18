@@ -1,6 +1,8 @@
 on:
   schedule:
-    - cron: '0 18 * * *' # https://crontab.guru/#0_18_*_*_* "At 18:00 (3pm BRT)."
+    # GitHub cron is fixed to UTC and never follows daylight saving, so this stays pinned
+    # to 9am EST (14:00 UTC) and lands at 10am local while the US east coast is on EDT
+    - cron: '0 14 * * 3' # https://crontab.guru/#0_14_*_*_3 "At 14:00 on Wednesday (9am EST)."
   workflow_dispatch: # allows manual triggering of the workflow
 
 jobs:

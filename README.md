@@ -12,7 +12,7 @@ Take a look at the [Autobump repository](https://github.com/rios0rios0/autobump)
 
 ## Configuration
 
-The daily workflow runs one job per owner. Each owner needs its own fine-grained PAT, because a
+The weekly workflow (Wednesday, 9am EST) runs one job per owner. Each owner needs its own fine-grained PAT, because a
 GitHub fine-grained token is bound to a single resource owner and cannot span several:
 
 | Owner         | Secret                     |
