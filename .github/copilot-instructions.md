@@ -60,11 +60,15 @@ This repository provides automated dependency and version management across mult
 ```
 .
 ├── .autobump.yaml           # Main autobump configuration
+├── .changes/unreleased/     # chlog fragments (CHANGELOG.md is generated from these)
 ├── .editorconfig            # Editor configuration
 ├── .github/
 │   ├── copilot-instructions.md  # This file
+│   ├── skills/
+│   │   └── code-review/SKILL.md  # Copilot code-review skill for this repo
 │   ├── workflows/
 │   │   ├── autobump.yaml        # Weekly automation workflow
+│   │   ├── checks.yaml           # PR gate: shared quality:basic-checks (rebase + changelog)
 │   │   ├── claude-mention.yaml   # Claude Code assistant workflow (@claude mentions)
 │   │   ├── claude-review.yaml     # Claude Code PR review workflow
 │   │   └── release.yaml            # Creates Git tag on merge to main

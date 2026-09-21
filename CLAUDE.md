@@ -13,6 +13,7 @@ Configuration-only repository that runs [Autobump](https://github.com/rios0rios0
 - `.github/workflows/claude-mention.yaml` — Claude Code assistant workflow (responds to `@claude` mentions), delegates to `rios0rios0/pipelines`
 - `.github/workflows/claude-review.yaml` — Claude Code PR review workflow, delegates to `rios0rios0/pipelines`
 - `.github/workflows/release.yaml` — creates a Git tag on merge to `main` (delegates to `rios0rios0/pipelines`)
+- `.github/workflows/checks.yaml` — PR gate on `main` running the shared `code-check > quality:basic-checks` job (rebase status and the changelog-fragment rule); delegates to `rios0rios0/pipelines`
 
 ## Validation
 
