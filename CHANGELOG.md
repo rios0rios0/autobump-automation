@@ -22,6 +22,13 @@ Exceptions are acceptable depending on the circumstances (critical bug fixes tha
 
 ## [Unreleased]
 
+## [0.5.2] - 2026-09-23
+
+### Changed
+
+- changed the AutoBump schedule from daily at 18:00 UTC (`0 18 * * *`) to weekly on Wednesday at 14:00 UTC / 9am EST (`0 14 * * 3`)
+- documented the `checks.yaml` pull-request gate in `CLAUDE.md` and `.github/copilot-instructions.md`, and added the missing `.changes/unreleased/` and `.github/skills/` entries to the copilot structure tree
+
 ## [0.5.1] - 2026-09-08
 
 ### Changed
