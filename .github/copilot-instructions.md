@@ -2,7 +2,7 @@
 
 This repository provides automated dependency and version management across multiple projects using the [Autobump tool](https://github.com/rios0rios0/autobump). It is a configuration and automation repository containing GitHub Actions workflows that run the Autobump tool weekly to manage version bumps and changelog updates across specified projects.
 
-**ALWAYS** reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.
+These instructions summarize the repository; where they disagree with the files themselves, the files are current.
 
 ## Working Effectively
 
@@ -40,13 +40,11 @@ This repository provides automated dependency and version management across mult
 ## Validation
 
 ### Manual Workflow Testing
-- **ALWAYS** test workflow components after making configuration changes
 - Run the complete workflow simulation:
   1. Download dependencies (30-60 seconds)
   2. Download Autobump binary (<1 second)
   3. Test binary execution (<1 second)
   4. Validate configuration syntax (<1 second)
-- **NEVER CANCEL** workflow operations - all steps complete in under 2 minutes
 - The actual GitHub Actions workflow runs weekly on Wednesday at 14:00 UTC (9am EST) and can be manually triggered
 
 ### Configuration Validation Steps
@@ -76,8 +74,9 @@ This repository provides automated dependency and version management across mult
 │   │   ├── bump.md
 │   │   └── default.md
 │   └── pull_request_template.md
+├── AGENTS.md                # Shared AI-agent instructions
 ├── CHANGELOG.md             # Release history
-├── CLAUDE.md                # Claude Code guidance
+├── CLAUDE.md                # Imports AGENTS.md for Claude Code
 ├── CONTRIBUTING.md          # Contribution guidelines
 ├── LICENSE                  # MIT License
 └── README.md                # Basic project description
@@ -137,21 +136,14 @@ fine-grained tokens with `403 ... forbids access via a fine-grained personal acc
 the token's lifetime is greater than 366 days`. To add an owner, add a matrix entry and its
 secret — no other file changes.
 
-### Expected Timing
-- **apt-get update && install**: 30-60 seconds
-- **autobump download (install script)**: <1 second
-- **configuration validation**: <1 second
-- **yamllint validation**: <1 second
-- **Complete workflow test**: <2 minutes total
-
 ### Common Failure Scenarios
 - **"open /home/runner/.gitconfig: no such file or directory"**: Setup git config first
 - **"No authentication mechanism implemented"**: Expected when testing without real credentials
 - **Missing variables/secrets**: Workflow will fail if repository variables or secrets are not configured
 
 ### Making Changes
-- **ALWAYS** validate configuration changes with `yamllint .autobump.yaml`
-- **ALWAYS** test autobump can parse the config with `./autobump discover` (expect auth errors)
+- After a configuration change, validate it with `yamllint .autobump.yaml`
+- Check that autobump can parse the config with `./autobump discover` (expect auth errors)
 - No build process required - this is a pure configuration repository
 
 ### Integration Points

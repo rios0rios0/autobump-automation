@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to AI coding agents (Claude Code, Codex, Cursor, GitHub Copilot) when working with code in this repository.
 
 ## Overview
 
@@ -42,7 +42,7 @@ and its matching secret; nothing else changes.
 - Follow [Development Guide](https://github.com/rios0rios0/guide/wiki) for coding standards and commit conventions.
 - Branch naming: `feat/`, `fix/`, `bump/x.x.x` for releases.
 - Always validate YAML after config changes.
-- Indent with tabs, UTF-8, LF line endings (see `.editorconfig`).
+- UTF-8, LF line endings, final newline (see `.editorconfig`). Indent YAML with two spaces: YAML forbids tab indentation, so `.editorconfig`'s `indent_style = tab` does not apply to it.
 
 <!-- chlog:start -->
 ## Changelog (chlog) — MANDATORY
