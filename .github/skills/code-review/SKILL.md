@@ -5,7 +5,7 @@ description: "Review pull requests and diffs in autobump-automation — the sche
 
 # Code review — `autobump-automation`
 
-`autobump-automation` is configuration, not code: `.autobump.yaml` and a set of GitHub Actions workflows that run [autobump](https://github.com/rios0rios0/autobump) on a schedule to cut releases across many repositories. Every entry in the configuration is a repository this automation will write to.
+`autobump-automation` is configuration, not code: `.autobump.yaml` and a set of GitHub Actions workflows that run [autobump](https://github.com/rios0rios0/autobump) on a schedule to cut releases across many repositories. Every owner in the workflow matrix is an account whose repositories this automation will write to.
 
 ## When to use this skill
 
@@ -20,7 +20,7 @@ The canonical engineering standards live in the
 repo-tailored index into that guide plus the rules that only apply here. Precedence, highest
 first:
 
-1. This repository's `.github/copilot-instructions.md`, `CLAUDE.md`, and `CONTRIBUTING.md` —
+1. This repository's `.github/copilot-instructions.md`, `AGENTS.md`, and `CONTRIBUTING.md` —
    they describe *this* codebase and its load-bearing invariants.
 2. The **rios0rios0/guide** wiki — the shared standard.
 3. General language idiom.
@@ -63,7 +63,7 @@ guide disagree, the guide wins and this file should be corrected in the same pul
 These are the checks that catch real defects in this repository. Work through
 them before the generic ones.
 
-- **Every project added to `.autobump.yaml` is a repository this job will commit to, push to, and open pull requests against.** A wrong entry, or a wrong branch, means unwanted commits in someone else's repository. Adding one is a behavioural change that needs a changelog entry.
+- **Every owner in `strategy.matrix.owner` (`.github/workflows/autobump.yaml`) is an account whose repositories this job will commit to, push to, and open pull requests against.** A wrong owner means unwanted commits in someone else's repositories. Adding one is a behavioural change that needs a changelog entry. `.autobump.yaml` holds only the settings shared by every owner and has no `providers` block — the workflow appends one per owner at runtime, so a committed one would be duplicated.
 - **Tokens are scoped per owner.** A fine-grained PAT is bound to a single resource owner, so a workflow that hands one owner's token to another owner's leg fails with a confusing 404. Check the secret name matches the owner.
 - **Secrets never reach a log or a URL.** No `echo` of a token, no token interpolated into a remote URL that gets printed, and no `set -x` around an authenticated command.
 - **Actions are pinned to a full commit SHA** with a trailing `# vX.Y.Z` comment, and bumps land across every workflow in one commit.
@@ -108,7 +108,7 @@ hand.
 - Fragment bodies start with a lowercase verb in simple past tense, capitalise proper nouns
   (GitHub, Go, Docker), and wrap code identifiers and versions in backticks.
 - `README.md` is updated whenever usage, setup, configuration, or architecture changes;
-  `.github/copilot-instructions.md` and `CLAUDE.md` whenever the workflow, commands, or
+  `.github/copilot-instructions.md` and `AGENTS.md` whenever the workflow, commands, or
   structure changes. Documentation and code ship in one commit.
 
 ## Git Flow and pull-request hygiene
@@ -171,7 +171,7 @@ A review that raises noise gets ignored. Do not report these:
 ### Change-control checklist
 - [ ] Changelog entry present for every behavioural change
 - [ ] `README.md` updated if usage, setup, or architecture changed
-- [ ] `.github/copilot-instructions.md` and `CLAUDE.md` updated if the workflow, commands, or structure changed
+- [ ] `.github/copilot-instructions.md` and `AGENTS.md` updated if the workflow, commands, or structure changed
 - [ ] Commit messages follow `type(SCOPE): message` in simple past tense
 - [ ] Breaking changes flagged in the commit footer, the changelog, and the PR description
 

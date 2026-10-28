@@ -33,5 +33,5 @@ development practices, refer to the **[Development Guide](https://github.com/rio
    ```bash
    gh workflow run autobump.yaml
    ```
-7. Commit following the [commit conventions](https://github.com/rios0rios0/guide/wiki/Life-Cycle/Git-Flow)
+7. Commit following the [commit conventions](https://github.com/rios0rios0/guide/wiki/Git-Flow)
 8. Open a pull request against `main`
