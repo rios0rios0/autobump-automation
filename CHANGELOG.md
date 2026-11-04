@@ -22,6 +22,13 @@ Exceptions are acceptable depending on the circumstances (critical bug fixes tha
 
 ## [Unreleased]
 
+## [0.5.3] - 2026-11-04
+
+### Changed
+
+- moved the agent instructions from `CLAUDE.md` to `AGENTS.md`, keeping a `CLAUDE.md` that imports it
+- refreshed `.github/skills/code-review/SKILL.md`, `.github/copilot-instructions.md`, `AGENTS.md` and `CONTRIBUTING.md`: pointed the review skill at the owner matrix in `.github/workflows/autobump.yaml` instead of a project list `.autobump.yaml` no longer has, replaced stale `CLAUDE.md` references with `AGENTS.md`, stated that YAML is indented with spaces, dropped the shouted Copilot-template rules and timing table, and fixed the Git Flow wiki link
+
 ## [0.5.2] - 2026-09-30
 
 ### Changed
